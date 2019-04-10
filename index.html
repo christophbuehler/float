@@ -7,40 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script src="./dist/float.min.js"></script>
+    <script src="./dist/floaters.min.js"></script>
     <script>
         let floater;
         window.onload = () => {
             const attachTo = document.querySelector('#attachTo');
-            const template = document.createElement('div');
-            template.innerHTML = `
+            const content = `
                 This is the content.<br>
                 And another line of pure juicy content.
             `;
-            template.style.padding = '16px';
-            floater = float({
+            floater = floaters.generic(
                 attachTo,
-                template,
-                hasBackdrop: true,
-                closeOnBackdropClick: true,
-                backdropColor: '#fff',
-                align: 'topleft',
-                transition: () => 'bounce-top',
-                arrowStrategy: () => ({
-                    x: 16,
-                    y: 0,
-                    size: 8,
-                }),
-                positionStrategy: ({
-                        attachToPos,
-                        attachToDim
-                    }) => attachToPos
-                    .add(attachToDim)
-                    .add({
-                        x: -22,
-                        y: 8
-                    }),
-            });
-
+                content,
+            );
         };
 
         function show() {

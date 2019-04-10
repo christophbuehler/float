@@ -37,16 +37,18 @@ class Floater {
 
 export default (config: Config) => new Floater(config);
 
+export type Float = (config: Config) => Floater;
+
 export interface Config {
   positionStrategy: PositionStrategy;
-  hasBackdrop: boolean;
-  closeOnBackdropClick: boolean;
-  backdropColor: string;
-  parent: HTMLElement;
   template: HTMLElement;
   attachTo: HTMLElement;
-  arrowStrategy: ArrowStrategy;
-  transition: () => string;
+  parent?: HTMLElement;
+  hasBackdrop?: boolean;
+  closeOnBackdropClick?: boolean;
+  backdropColor?: string;
+  arrowStrategy?: ArrowStrategy;
+  transition?: Transition;
 }
 
 export type PositionStrategy = (
@@ -57,3 +59,4 @@ export type PositionStrategy = (
   },
 ) => { x: number; y: number };
 export type ArrowStrategy = () => { x: number; y: number; size: number };
+export type Transition = () => string;
