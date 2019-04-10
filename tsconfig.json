@@ -1,16 +1,9 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "noImplicitAny": false,
-    "module": "commonjs",
-    "allowJs": true,
+    "noImplicitAny": true,
+    "module": "es6",
     "target": "es2015",
-    "typeRoots": [
-      "../node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "allowJs": true
   }
 }

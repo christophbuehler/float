@@ -1,12 +1,15 @@
 module.exports = {
-  entry: ['./src/main.scss', './src/main.ts'],
+  entry: ['./src/main.ts'],
   output: {
-    filename: 'floater.min.js',
-    library: 'floater',
+    filename: 'float.min.js',
+    library: 'float',
+    libraryExport: 'default',
+  },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js"],
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.scss$/i,
         use: [
           'style-loader',
