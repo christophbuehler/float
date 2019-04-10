@@ -10,7 +10,6 @@ export class FloaterBoxComponent extends HTMLElement {
 
   constructor() {
     super();
-
     this.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
     style.textContent = `

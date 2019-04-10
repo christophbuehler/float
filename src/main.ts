@@ -30,6 +30,13 @@ class Floater {
     parent.appendChild(this.boxComponent);
   }
 
+  public remove() {
+    this.boxComponent.remove();
+    if (this.backdropComponent) {
+      this.backdropComponent.remove();
+    }
+  }
+
   public show() {
     this.boxComponent.show();
   }
