@@ -1,73 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <script src="./dist/float.min.js"></script>
     <script src="./dist/floaters.min.js"></script>
+
+    <script
+      data-require="tinymce@4.4.3"
+      data-semver="4.4.3"
+      src="https://cdn.tinymce.com/4/tinymce.min.js"
+    ></script>
+
     <script>
-        let floater;
-        window.onload = () => {
+      const textarea = document.createElement("textarea");
 
-            floaters.generic(attachTo, 'my content').show();
+      let floater;
+      window.onload = () => {
+        // Create a custom position strategy.
+        const positionStrategy = floaters.positionStrategies.ninja(
+          "TOP_LEFT",
+          {
+            x: 0,
+            y: -12
+          },
+          false,
+          true
+        );
 
-            // Create a custom position strategy.
-            const positionStrategy = floaters.positionStrategies.ninja(
-                'TOP_LEFT', {
-                    x: 0,
-                    y: -12,
-                },
-                false,
-                true,
-            );
+        // Add an arrow to the dialog.
+        const arrowStrategy = floaters.arrowStrategies.bottomStart();
 
-            // Add an arrow to the dialog.
-            const arrowStrategy = floaters.arrowStrategies.bottomStart();
+        floater = floaters.generic(
+          document.querySelector("#attachTo"),
+          textarea,
+          {
+            positionStrategy,
+            arrowStrategy,
 
-            floater = floaters.generic(
-                document.querySelector('#attachTo'),
-                'my content', {
-                    positionStrategy,
-                    arrowStrategy,
+            // Trigger a bounce-top animation on show.
+            transition: () => "bounce-top"
+          }
+        );
+      };
 
-                    // Trigger a bounce-top animation on show.
-                    transition: () => 'bounce-top',
-                },
-            );
+      function show() {
+        floater.show();
 
-
-
-        };
-
-        function show() {
-            floater.show();
-        }
+        tinymce.init({
+          target: textarea
+        });
+      }
     </script>
-</head>
+  </head>
 
-<body>
+  <body>
     <button onclick="show()">show me da ting</button>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sint odio minus, recusandae assumenda ab similique
-    atque suscipit dolorem expedita, provident voluptates aspernatur illum, maxime laborum possimus soluta impedit
-    praesentium?
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sint odio
+    minus, recusandae assumenda ab similique atque suscipit dolorem expedita,
+    provident voluptates aspernatur illum, maxime laborum possimus soluta
+    impedit praesentium?
     <div style="height:200;">
-        Lorem, ipsum dolor sit amet conserehenderit?
+      Lorem, ipsum dolor sit amet conserehenderit?
     </div>
     <div style="height:200;">
-        Lorem, ipsum dolor sit amet conserehenderit?
-        <div>
-            <div style="width: 120px;float:left">asdasd
-                Lorem, ipsum dolor sit amet conserehenderit?
-            </div>
-            <div id="attachTo" style="float: left;width: 120px;background: blue;">ATTACH TO ME</div>
+      Lorem, ipsum dolor sit amet conserehenderit?
+      <div>
+        <div style="width: 120px;float:left">
+          asdasd Lorem, ipsum dolor sit amet conserehenderit?
         </div>
+        <div id="attachTo" style="float: left;width: 120px;background: blue;">
+          ATTACH TO ME
+        </div>
+      </div>
     </div>
     <div style="height:500;">
-        Lorem, ipsum dolor sit amet conserehenderit?
+      Lorem, ipsum dolor sit amet conserehenderit?
     </div>
-</body>
-
+  </body>
 </html>

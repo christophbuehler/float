@@ -10,7 +10,7 @@ export class FloaterBoxComponent extends HTMLElement {
 
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: 'open' }).innerHTML = '<slot></slot>';
     const style = document.createElement('style');
     style.textContent = `
       :host {
@@ -119,7 +119,9 @@ export class FloaterBoxComponent extends HTMLElement {
     this.config.template.style.backgroundColor = '#fff';
     this.config.template.style.position = 'relative';
     this.config.template.style.borderRadius = '4px';
-    this.shadowRoot.appendChild(this.config.template);
+
+    // Append content to light dom!
+    this.appendChild(this.config.template);
 
     // Add backdrop.
     if (this.backdropComponent && this.config.closeOnBackdropClick) {
