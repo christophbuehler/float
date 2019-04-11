@@ -25,7 +25,7 @@ export class FloaterArrowComponent extends HTMLElement {
     this.reposition();
   }
 
-  private reposition() {
+  public reposition() {
     const { x, y, size, fromRight, fromBottom } = this.arrowStrategy();
     const offset = size / 2;
 

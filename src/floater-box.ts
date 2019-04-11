@@ -10,6 +10,7 @@ export class FloaterBoxComponent extends HTMLElement {
 
   constructor() {
     super();
+
     this.attachShadow({ mode: 'open' }).innerHTML = '<slot></slot>';
     const style = document.createElement('style');
     style.textContent = `
@@ -149,6 +150,10 @@ export class FloaterBoxComponent extends HTMLElement {
     const { attachTo } = this.config;
     const offset = totalOffset(attachTo);
     const dim = new V2(attachTo.clientWidth, attachTo.clientHeight);
+
+    if (this.arrowComponent) {
+      this.arrowComponent.reposition();
+    }
 
     this.positionWithAlignment(offset, dim);
 
