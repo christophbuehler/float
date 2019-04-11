@@ -4,6 +4,7 @@
     "noImplicitAny": true,
     "module": "es6",
     "target": "es2015",
-    "allowJs": true
+    "allowJs": true,
+    "lib": ["es2016.array.include", "es2017", "es2015", "dom"],
   }
 }

@@ -11,12 +11,17 @@ declare const float: Float;
 
 export default (
   attachTo: HTMLElement,
-  content: string,
+  contentOrTemplate: string | HTMLElement,
   partialConfig: Partial<Config> = {},
 ) => {
-  const template = document.createElement('div');
-  template.innerHTML = content;
-  template.style.padding = '16px';
+  const template = (() => {
+    if (typeof contentOrTemplate !== 'string') {
+      return contentOrTemplate;
+    }
+    const tpl = document.createElement('div');
+    tpl.innerHTML = contentOrTemplate;
+    return tpl;
+  })();
 
   const arrowStrategy: ArrowStrategy = () => ({
     x: 16,

@@ -11,15 +11,35 @@
     <script>
         let floater;
         window.onload = () => {
-            const attachTo = document.querySelector('#attachTo');
-            const content = `
-                This is the content.<br>
-                And another line of pure juicy content.
-            `;
-            floater = floaters.generic(
-                attachTo,
-                content,
+
+            floaters.generic(attachTo, 'my content').show();
+
+            // Create a custom position strategy.
+            const positionStrategy = floaters.positionStrategies.ninja(
+                'TOP_LEFT', {
+                    x: 0,
+                    y: -12,
+                },
+                false,
+                true,
             );
+
+            // Add an arrow to the dialog.
+            const arrowStrategy = floaters.arrowStrategies.bottomStart();
+
+            floater = floaters.generic(
+                document.querySelector('#attachTo'),
+                'my content', {
+                    positionStrategy,
+                    arrowStrategy,
+
+                    // Trigger a bounce-top animation on show.
+                    transition: () => 'bounce-top',
+                },
+            );
+
+
+
         };
 
         function show() {

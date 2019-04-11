@@ -5,7 +5,7 @@ import { V2 } from './v2';
 
 export class FloaterBoxComponent extends HTMLElement {
   public config: Config;
-  private backdropComponent: FloaterBackdropComponent;
+  public backdropComponent: FloaterBackdropComponent;
   private arrowComponent: FloaterArrowComponent;
 
   constructor() {
@@ -32,11 +32,11 @@ export class FloaterBoxComponent extends HTMLElement {
       }
       :host(.bounce-top.show) {
         transform: translate(0, 0);
-        animation-name: bounce;
+        animation-name: bounce-from-top;
         animation-duration: .4s;
         animation-iteration-count: 1;
       }
-      @keyframes bounce {
+      @keyframes bounce-from-top {
         0% {
           transform: translate(0, -8px);
         }
@@ -45,6 +45,52 @@ export class FloaterBoxComponent extends HTMLElement {
         }
         60% {
           transform: translate(0, -1px);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
+      :host(.bounce-left) {
+        transform: translate(-8px, 0);
+      }
+      :host(.bounce-left.show) {
+        transform: translate(0, 0);
+        animation-name: bounce-from-left;
+        animation-duration: .4s;
+        animation-iteration-count: 1;
+      }
+      @keyframes bounce-from-left {
+        0% {
+          transform: translate(-8px, 0);
+        }
+        30% {
+          transform: translate(2px, 0);
+        }
+        60% {
+          transform: translate(-1px, 0);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
+      :host(.bounce-right) {
+        transform: translate(8px, 0);
+      }
+      :host(.bounce-right.show) {
+        transform: translate(0, 0);
+        animation-name: bounce-from-right;
+        animation-duration: .4s;
+        animation-iteration-count: 1;
+      }
+      @keyframes bounce-from-right {
+        0% {
+          transform: translate(8px, 0);
+        }
+        30% {
+          transform: translate(-2px, 0);
+        }
+        60% {
+          transform: translate(1px, 0);
         }
         100% {
           transform: translate(0, 0);
@@ -97,7 +143,7 @@ export class FloaterBoxComponent extends HTMLElement {
     this.reposition();
   }
 
-  private reposition() {
+  public reposition() {
     const { attachTo } = this.config;
     const offset = totalOffset(attachTo);
     const dim = new V2(attachTo.clientWidth, attachTo.clientHeight);
@@ -114,15 +160,15 @@ export class FloaterBoxComponent extends HTMLElement {
   }
 
   private positionWithAlignment(attachToPos: V2, attachToDim: V2) {
-    const newPos = this.config.positionStrategy({
+    const { x, y } = this.config.positionStrategy({
       attachToDim,
       attachToPos,
-      contentDim: void 0,
+      contentDim: new V2(this.clientWidth, this.clientHeight),
     });
 
     Object.assign(this.style, {
-      left: newPos.x + 'px',
-      top: newPos.y + 'px',
+      left: `${x}px`,
+      top: `${y}px`,
     });
   }
 }

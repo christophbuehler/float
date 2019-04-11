@@ -8,11 +8,13 @@ window.customElements.define('floater-arrow', FloaterArrowComponent);
 window.customElements.define('floater-backdrop', FloaterBackdropComponent);
 
 class Floater {
-  private boxComponent: any;
+  private boxComponent: FloaterBoxComponent;
   private backdropComponent: FloaterBackdropComponent;
 
   constructor(config: Config) {
-    this.boxComponent = document.createElement('floater-box');
+    this.boxComponent = document.createElement(
+      'floater-box',
+    ) as FloaterBoxComponent;
     this.boxComponent.config = config;
     const parent = config.parent || document.body;
 
@@ -40,6 +42,10 @@ class Floater {
   public show() {
     this.boxComponent.show();
   }
+
+  public hide() {
+    this.boxComponent.hide();
+  }
 }
 
 export default (config: Config) => new Floater(config);
@@ -64,6 +70,15 @@ export type PositionStrategy = (
     attachToDim: V2;
     contentDim: V2;
   },
-) => { x: number; y: number };
-export type ArrowStrategy = () => { x: number; y: number; size: number };
+) => {
+  x: number;
+  y: number;
+};
+export type ArrowStrategy = () => {
+  x: number;
+  y: number;
+  size: number;
+  fromRight?: boolean;
+  fromBottom?: boolean;
+};
 export type Transition = () => string;

@@ -26,12 +26,12 @@ export class FloaterArrowComponent extends HTMLElement {
   }
 
   private reposition() {
-    const { x, y, size } = this.arrowStrategy();
+    const { x, y, size, fromRight, fromBottom } = this.arrowStrategy();
     const offset = size / 2;
 
     Object.assign(this.style, {
-      left: `${x - offset}px`,
-      top: `${y - offset}px`,
+      [fromRight ? 'right' : 'left']: `${x - offset}px`,
+      [fromBottom ? 'bottom' : 'top']: `${y - offset}px`,
       width: `${size}px`,
       height: `${size}px`,
     });
