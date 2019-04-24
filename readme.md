@@ -2,9 +2,11 @@
 
 A JS library for creating configurable overlays.
 
-`float(config: Config).show();`
+![float](float-example.png)
 
-## Configuration
+## API
+
+`float(config: Config).show();`
 
 ```
 interface Config {
