@@ -35,6 +35,7 @@ export default (
     padding: '16px',
     color: '#fff',
     background: '#8f72e1',
+    cursor: 'pointer',
   });
 
   const cfg: any = ({
@@ -44,15 +45,21 @@ export default (
     BOTTOM: bottom,
   } as any)[pos]();
 
-  return float({
+  const floater = float({
     attachTo,
     template,
-    hasBackdrop: true,
-    closeOnBackdropClick: true,
-    backdropColor: 'transparent',
+    hasBackdrop: false,
+    // closeOnBackdropClick: true,
+    // backdropColor: 'transparent',
     ...partialConfig,
     ...cfg,
   });
+
+  template.addEventListener('click', () => {
+    floater.hide();
+  });
+
+  return floater;
 };
 
 function left(): Partial<Config> {

@@ -51,6 +51,29 @@ export class FloaterBoxComponent extends HTMLElement {
           transform: translate(0, 0);
         }
       }
+      :host(.bounce-bottom) {
+        transform: translate(0, 8px);
+      }
+      :host(.bounce-bottom.show) {
+        transform: translate(0, 0);
+        animation-name: bounce-from-bottom;
+        animation-duration: .4s;
+        animation-iteration-count: 1;
+      }
+      @keyframes bounce-from-bottom {
+        0% {
+          transform: translate(0, 8px);
+        }
+        30% {
+          transform: translate(0, -2px);
+        }
+        60% {
+          transform: translate(0, 1px);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
       :host(.bounce-left) {
         transform: translate(-8px, 0);
       }
@@ -150,6 +173,8 @@ export class FloaterBoxComponent extends HTMLElement {
     }
 
     this.reposition();
+
+    window.addEventListener('resize', () => this.reposition());
   }
 
   public reposition() {
@@ -167,7 +192,7 @@ export class FloaterBoxComponent extends HTMLElement {
       if (!el || el.tagName === 'BODY') {
         return val;
       }
-      const newVal = new V2(val.x + el.offsetLeft, val.y + el.offsetTop);
+      const newVal = val.add(new V2(el.offsetLeft, el.offsetTop));
       return totalOffset(el.offsetParent as HTMLElement, newVal);
     }
   }

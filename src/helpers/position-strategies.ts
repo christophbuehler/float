@@ -33,7 +33,6 @@ export const ninja = (
     }
 
     pos = pos.add(offset);
-
     return pos;
   };
 };

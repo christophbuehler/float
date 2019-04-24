@@ -7,7 +7,7 @@
     <title>Document</title>
 
     <link
-      href="https://fonts.googleapis.com/css?family=Roboto"
+      href="https://fonts.googleapis.com/css?family=Roboto|Material+Icons"
       rel="stylesheet"
     />
 
@@ -16,22 +16,29 @@
         font-family: "Roboto", sans-serif;
       }
       .wrapper {
+        text-align: center;
         margin: 248px auto;
-        width: 180px;
-        display: grid;
-        grid-template-columns: 80px 80px;
-        justify-content: space-between;
+      }
+      .wrapper > div > i {
+        vertical-align: middle;
+      }
+      .wrapper > div:active {
+        background: #fafafa;
+        border: 1px solid rgba(0, 0, 0, 0.1);
       }
       .wrapper > div {
-        width: 80px;
-        height: 80px;
-        line-height: 80px;
+        margin-bottom: 16px;
+        display: inline-block;
+        width: 51px;
+        height: 51px;
+        line-height: 51px;
         text-align: center;
         font-size: 12px;
         color: #888;
         cursor: pointer;
-        background: #fff;
-        border: 1px solid #8f72e1;
+        background: #fcfcfc;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 4px;
       }
     </style>
 
@@ -39,31 +46,28 @@
     <script src="./dist/floaters.min.js"></script>
 
     <script>
-      function show(pos, attachId) {
-        floaters
-          .ufo(
-            document.querySelector("#attach"),
-            "Create your first task!",
-            pos
-          )
-          .show();
+      let floater;
+      function show(pos, attach) {
+        if (floater) floater.remove();
+        floater = floaters.ufo(attach, "Hey there!", pos);
+        floater.show();
       }
     </script>
   </head>
 
   <body>
-    <div class="wrapper" id="attach">
-      <div onclick="show('LEFT')">
-        < show
+    <div class="wrapper">
+      <div onclick="show('LEFT', this)">
+        <i class="material-icons">keyboard_arrow_left</i>
       </div>
-      <div onclick="show('TOP')">
-        ^ show
+      <div onclick="show('TOP', this)">
+        <i class="material-icons">keyboard_arrow_up</i>
       </div>
-      <div onclick="show('RIGHT')">
-        > show
+      <div onclick="show('BOTTOM', this)">
+        <i class="material-icons">keyboard_arrow_down</i>
       </div>
-      <div onclick="show('BOTTOM')">
-        v show
+      <div onclick="show('RIGHT', this)">
+        <i class="material-icons">keyboard_arrow_right</i>
       </div>
     </div>
   </body>

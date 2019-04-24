@@ -11,7 +11,7 @@ class Floater {
   private boxComponent: FloaterBoxComponent;
   private backdropComponent: FloaterBackdropComponent;
 
-  constructor(config: Config) {
+  constructor(public config: Config) {
     this.boxComponent = document.createElement(
       'floater-box',
     ) as FloaterBoxComponent;
