@@ -16,7 +16,7 @@ export class FloaterBoxComponent extends HTMLElement {
     style.textContent = `
       :host {
         position: absolute;
-        box-shadow: 0 0 0 1px rgba(99, 114, 130, 0.16), 0 8px 16px rgba(27, 39, 51, 0.08);
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         border-radius: 4px;
         background-color: #fff;
         opacity: 0;
@@ -117,9 +117,15 @@ export class FloaterBoxComponent extends HTMLElement {
   }
 
   public connectedCallback() {
-    this.config.template.style.backgroundColor = '#fff';
+    // this.config.template.style.backgroundColor = '#fff';
     this.config.template.style.position = 'relative';
     this.config.template.style.borderRadius = '4px';
+
+    if (this.config.customCss) {
+      const style = document.createElement('style');
+      style.textContent = this.config.customCss;
+      this.shadowRoot.appendChild(style);
+    }
 
     // Append content to light dom!
     this.appendChild(this.config.template);

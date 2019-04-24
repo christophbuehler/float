@@ -62,6 +62,7 @@ export interface Config {
   backdropColor?: string;
   arrowStrategy?: ArrowStrategy;
   transition?: Transition;
+  customCss?: string;
 }
 
 export type PositionStrategy = (
@@ -80,5 +81,6 @@ export type ArrowStrategy = () => {
   size: number;
   fromRight?: boolean;
   fromBottom?: boolean;
+  customCss?: string;
 };
 export type Transition = () => string;

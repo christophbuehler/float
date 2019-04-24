@@ -13,7 +13,7 @@ export class FloaterArrowComponent extends HTMLElement {
           display: block;
           position: absolute;
           transform: rotate(45deg);
-          box-shadow: 0 0 0 1px rgba(99, 114, 130, 0.16), 0 8px 16px rgba(27, 39, 51, 0.08);
+          box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
           background-color: #fff;
           z-index: -1;
         }
@@ -23,6 +23,13 @@ export class FloaterArrowComponent extends HTMLElement {
 
   public connectedCallback() {
     this.reposition();
+
+    const customCss = this.arrowStrategy().customCss;
+    if (customCss) {
+      const style = document.createElement('style');
+      style.textContent = customCss;
+      this.shadowRoot.appendChild(style);
+    }
   }
 
   public reposition() {

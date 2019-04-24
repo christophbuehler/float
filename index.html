@@ -5,79 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+      }
+      #attachTo {
+        margin: 248px auto;
+        width: 80px;
+        height: 80px;
+        line-height: 80px;
+        text-align: center;
+        font-size: 12px;
+        color: #888;
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid #8f72e1;
+      }
+    </style>
+
     <script src="./dist/float.min.js"></script>
     <script src="./dist/floaters.min.js"></script>
 
-    <script
-      data-require="tinymce@4.4.3"
-      data-semver="4.4.3"
-      src="https://cdn.tinymce.com/4/tinymce.min.js"
-    ></script>
-
     <script>
-      const textarea = document.createElement("textarea");
-
       let floater;
       window.onload = () => {
-        // Create a custom position strategy.
-        const positionStrategy = floaters.positionStrategies.ninja(
-          "TOP_LEFT",
-          {
-            x: 0,
-            y: -12
-          },
-          false,
-          true
-        );
-
-        // Add an arrow to the dialog.
-        const arrowStrategy = floaters.arrowStrategies.bottomStart();
-
-        floater = floaters.generic(
+        floater = floaters.ufo(
           document.querySelector("#attachTo"),
-          textarea,
-          {
-            positionStrategy,
-            arrowStrategy,
-
-            // Trigger a bounce-top animation on show.
-            transition: () => "bounce-top"
-          }
+          "Create your first task!"
         );
       };
 
       function show() {
         floater.show();
-
-        tinymce.init({
-          target: textarea
-        });
       }
     </script>
   </head>
 
   <body>
-    <button onclick="show()">show me da ting</button>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sint odio
-    minus, recusandae assumenda ab similique atque suscipit dolorem expedita,
-    provident voluptates aspernatur illum, maxime laborum possimus soluta
-    impedit praesentium?
-    <div style="height:200;">
-      Lorem, ipsum dolor sit amet conserehenderit?
-    </div>
-    <div style="height:200;">
-      Lorem, ipsum dolor sit amet conserehenderit?
-      <div>
-        <div style="width: 120px;float:left">
-          asdasd Lorem, ipsum dolor sit amet conserehenderit?
-        </div>
-        <div id="attachTo" style="float: left;width: 120px;background: blue;">
-          ATTACH TO ME
-        </div>
-      </div>
-    </div>
-    <div style="height:500;">
-      Lorem, ipsum dolor sit amet conserehenderit?
-    </div>
+    <div id="attachTo" onclick="show()">click me</div>
   </body>
 </html>
