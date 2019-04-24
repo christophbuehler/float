@@ -15,8 +15,14 @@
       body {
         font-family: "Roboto", sans-serif;
       }
-      #attachTo {
+      .wrapper {
         margin: 248px auto;
+        width: 180px;
+        display: grid;
+        grid-template-columns: 80px 80px;
+        justify-content: space-between;
+      }
+      .wrapper > div {
         width: 80px;
         height: 80px;
         line-height: 80px;
@@ -33,21 +39,32 @@
     <script src="./dist/floaters.min.js"></script>
 
     <script>
-      let floater;
-      window.onload = () => {
-        floater = floaters.ufo(
-          document.querySelector("#attachTo"),
-          "Create your first task!"
-        );
-      };
-
-      function show() {
-        floater.show();
+      function show(pos, attachId) {
+        floaters
+          .ufo(
+            document.querySelector("#attach"),
+            "Create your first task!",
+            pos
+          )
+          .show();
       }
     </script>
   </head>
 
   <body>
-    <div id="attachTo" onclick="show()">click me</div>
+    <div class="wrapper" id="attach">
+      <div onclick="show('LEFT')">
+        < show
+      </div>
+      <div onclick="show('TOP')">
+        ^ show
+      </div>
+      <div onclick="show('RIGHT')">
+        > show
+      </div>
+      <div onclick="show('BOTTOM')">
+        v show
+      </div>
+    </div>
   </body>
 </html>

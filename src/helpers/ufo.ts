@@ -6,7 +6,12 @@ import {
   Transition,
 } from '../main';
 import { V2 } from '../v2';
-import { rightStart } from './arrow-strategies';
+import {
+  bottomStart,
+  leftStart,
+  rightStart,
+  topStart,
+} from './arrow-strategies';
 import { ninja } from './position-strategies';
 
 declare const float: Float;
@@ -14,6 +19,7 @@ declare const float: Float;
 export default (
   attachTo: HTMLElement,
   contentOrTemplate: string | HTMLElement,
+  pos: 'LEFT' | 'TOP' | 'RIGHT' | 'BOTTOM' = 'BOTTOM',
   partialConfig: Partial<Config> = {},
 ) => {
   const template = (() => {
@@ -25,6 +31,31 @@ export default (
     return tpl;
   })();
 
+  Object.assign(template.style, {
+    padding: '16px',
+    color: '#fff',
+    background: '#8f72e1',
+  });
+
+  const cfg: any = ({
+    LEFT: left,
+    TOP: top,
+    RIGHT: right,
+    BOTTOM: bottom,
+  } as any)[pos]();
+
+  return float({
+    attachTo,
+    template,
+    hasBackdrop: true,
+    closeOnBackdropClick: true,
+    backdropColor: 'transparent',
+    ...partialConfig,
+    ...cfg,
+  });
+};
+
+function left(): Partial<Config> {
   const arrowStrategy = rightStart(8, 16, {
     customCss: `
         :host {
@@ -33,29 +64,61 @@ export default (
       `,
   });
   const positionStrategy = ninja('TOP_LEFT', new V2(-16, 0), true, false);
-
   const transition: Transition = () => 'bounce-left';
-
-  Object.assign(template.style, {
-    padding: '16px',
-    color: '#fff',
-    background: '#8f72e1',
-  });
-
-  const customCss = `
-
-  `;
-
-  return float({
-    attachTo,
-    template,
-    hasBackdrop: true,
-    closeOnBackdropClick: true,
-    backdropColor: 'transparent',
-    transition,
+  return {
     arrowStrategy,
     positionStrategy,
-    customCss,
-    ...partialConfig,
+    transition,
+  };
+}
+
+function top(): Partial<Config> {
+  const arrowStrategy = bottomStart(8, 16, {
+    customCss: `
+        :host {
+            background: #8f72e1;
+        }
+      `,
   });
-};
+  const positionStrategy = ninja('TOP_LEFT', new V2(0, -16), false, true);
+  const transition: Transition = () => 'bounce-top';
+  return {
+    arrowStrategy,
+    positionStrategy,
+    transition,
+  };
+}
+
+function right(): Partial<Config> {
+  const arrowStrategy = leftStart(8, 16, {
+    customCss: `
+        :host {
+            background: #8f72e1;
+        }
+      `,
+  });
+  const positionStrategy = ninja('TOP_RIGHT', new V2(16, 0), false, false);
+  const transition: Transition = () => 'bounce-right';
+  return {
+    arrowStrategy,
+    positionStrategy,
+    transition,
+  };
+}
+
+function bottom(): Partial<Config> {
+  const arrowStrategy = topStart(8, 16, {
+    customCss: `
+        :host {
+            background: #8f72e1;
+        }
+      `,
+  });
+  const positionStrategy = ninja('BOTTOM_LEFT', new V2(0, 16), false, false);
+  const transition: Transition = () => 'bounce-bottom';
+  return {
+    arrowStrategy,
+    positionStrategy,
+    transition,
+  };
+}

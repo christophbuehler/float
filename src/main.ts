@@ -50,7 +50,7 @@ class Floater {
 
 export default (config: Config) => new Floater(config);
 
-export type Float = (config: Config) => Floater;
+export type Float = (config: Partial<Config>) => Floater;
 
 export interface Config {
   positionStrategy: PositionStrategy;
@@ -75,6 +75,7 @@ export type PositionStrategy = (
   x: number;
   y: number;
 };
+
 export type ArrowStrategy = () => {
   x: number;
   y: number;
@@ -83,4 +84,5 @@ export type ArrowStrategy = () => {
   fromBottom?: boolean;
   customCss?: string;
 };
+
 export type Transition = () => string;
