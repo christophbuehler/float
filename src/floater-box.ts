@@ -16,11 +16,11 @@ export class FloaterBoxComponent extends HTMLElement {
     style.textContent = `
       :host {
         position: absolute;
+        z-index: 999;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         border-radius: 4px;
         background-color: #fff;
         opacity: 0;
-        z-index: 2;
         pointer-events: none;
       }
       :host(.show) {

@@ -1,8 +1,8 @@
 # float
 
-A JS library for creating configurable overlays.
+A JS library for creating overlays.
 
-![float](float-example.png)
+![float](float.gif)
 
 ## API
 

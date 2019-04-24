@@ -51,8 +51,8 @@ export default (
     hasBackdrop: false,
     // closeOnBackdropClick: true,
     // backdropColor: 'transparent',
-    ...partialConfig,
     ...cfg,
+    ...partialConfig,
   });
 
   template.addEventListener('click', () => {
