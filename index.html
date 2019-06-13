@@ -4,70 +4,139 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <title>Floater</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.10.0/beautify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.10.0/beautify-css.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.10.0/beautify-html.js"></script>
 
     <link
-      href="https://fonts.googleapis.com/css?family=Roboto|Material+Icons"
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"
       rel="stylesheet"
     />
 
+    <script>
+      window.onload = () => {
+        const menuEntries = Array.from(document.querySelectorAll(".nav > div"));
+        const iframe = document.querySelector(".demo-frame");
+        const jsCode = document.querySelector(".js-code");
+        const htmlCode = document.querySelector(".html-code");
+        let activeEntry;
+
+        menuEntries.forEach(entry =>
+          entry.addEventListener("click", ev => loadDemo(ev.target))
+        );
+
+        loadDemo(menuEntries[0]);
+
+        function loadDemo(target) {
+          if (activeEntry) {
+            activeEntry.classList.toggle("active", false);
+          }
+          target.classList.toggle("active", true);
+          activeEntry = target;
+
+          const name = target.dataset.demo;
+          iframe.src = `./demos/${name}/demo.html`;
+          const parser = new DOMParser();
+          fetch(`./demos/${name}/demo.html`)
+            .then(res => res.text())
+            .then(
+              txt => parser.parseFromString(txt, "text/html").body.innerHTML
+            )
+            .then(html => (htmlCode.value = html_beautify(html)));
+
+          fetch(`./demos/${name}/demo.js`)
+            .then(res => res.text())
+            .then(txt => (jsCode.value = js_beautify(txt)));
+        }
+      };
+    </script>
     <style>
       body {
-        font-family: "Roboto", sans-serif;
+        font-family: "Open Sans", sans-serif;
+        margin: 0;
+        padding: 0;
       }
-      .wrapper {
-        text-align: center;
-        margin: 248px auto;
+      .demos {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: row;
       }
-      .wrapper > div > i {
-        vertical-align: middle;
+      .nav {
+        flex: 0 0 220px;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
       }
-      .wrapper > div:active {
-        background: #fafafa;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-      }
-      .wrapper > div {
-        margin-bottom: 16px;
-        display: inline-block;
-        width: 51px;
-        height: 51px;
-        line-height: 51px;
-        text-align: center;
-        font-size: 12px;
-        color: #888;
+      .nav > div {
+        height: 42px;
+        line-height: 42px;
+        padding: 0 16px;
         cursor: pointer;
-        background: #fcfcfc;
-        border: 1px solid rgba(0, 0, 0, 0.06);
-        border-radius: 4px;
+        font-size: 14px;
+        margin-bottom: 4px;
+        font-weight: 600;
+      }
+      .nav > div:hover,
+      .nav > .active {
+        background-color: rgba(0, 8, 120, 0.06);
+      }
+      h1 {
+        margin: 24px 0 16px;
+        padding: 0 16px;
+        font-size: 20px;
+        color: rgb(0, 7, 73);
+      }
+      .code {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1;
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+      textarea {
+        outline: none;
+        border: none;
+        background-color: transparent;
+        box-sizing: border-box;
+        padding: 16px;
+        resize: none;
+      }
+      .js-code {
+        flex: 1 1;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .html-code {
+        flex: 1 1;
+      }
+      .demo-preview {
+        flex: 1 1;
+        border-left: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .demo-preview {
+        overflow: hidden;
+      }
+      .demo-frame {
+        height: 100%;
+        width: 100%;
+        overflow: auto;
       }
     </style>
-
-    <script src="./dist/float.min.js"></script>
-    <script src="./dist/floaters.min.js"></script>
-
-    <script>
-      let floater;
-      function show(pos, attach) {
-        if (floater) floater.remove();
-        floater = floaters.ufo(attach, "Hey there!", pos);
-        floater.show();
-      }
-    </script>
   </head>
-
   <body>
-    <div class="wrapper">
-      <div onclick="show('LEFT', this)">
-        <i class="material-icons">keyboard_arrow_left</i>
+    <div class="demos">
+      <div class="nav">
+        <h1>float.js</h1>
+        <div data-demo="ufo">Ufo</div>
       </div>
-      <div onclick="show('TOP', this)">
-        <i class="material-icons">keyboard_arrow_up</i>
+      <div class="code">
+        <textarea readonly class="js-code"></textarea>
+        <textarea readonly class="html-code"></textarea>
       </div>
-      <div onclick="show('BOTTOM', this)">
-        <i class="material-icons">keyboard_arrow_down</i>
-      </div>
-      <div onclick="show('RIGHT', this)">
-        <i class="material-icons">keyboard_arrow_right</i>
+      <div class="demo-preview">
+        <iframe class="demo-frame" src="" frameborder="0"></iframe>
       </div>
     </div>
   </body>

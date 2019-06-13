@@ -4,8 +4,8 @@ import { Config } from './main';
 import { V2 } from './v2';
 
 export class FloaterBoxComponent extends HTMLElement {
-  public config: Config;
-  public backdropComponent: FloaterBackdropComponent;
+  config: Config;
+  backdropComponent: FloaterBackdropComponent;
   private arrowComponent: FloaterArrowComponent;
 
   constructor() {
@@ -125,24 +125,25 @@ export class FloaterBoxComponent extends HTMLElement {
     this.shadowRoot.appendChild(style);
   }
 
-  public show() {
+  show() {
     if (this.backdropComponent) {
       this.backdropComponent.show();
     }
     this.classList.toggle('show', true);
   }
 
-  public hide() {
+  hide() {
     if (this.backdropComponent) {
       this.backdropComponent.hide();
     }
     this.classList.toggle('show', false);
   }
 
-  public connectedCallback() {
+  connectedCallback() {
     // this.config.template.style.backgroundColor = '#fff';
-    this.config.template.style.position = 'relative';
-    this.config.template.style.borderRadius = '4px';
+    const template = this.config.template;
+    template.style.position = template.style.position || 'relative';
+    template.style.borderRadius = template.style.borderRadius || '4px';
 
     if (this.config.customCss) {
       const style = document.createElement('style');
@@ -177,7 +178,7 @@ export class FloaterBoxComponent extends HTMLElement {
     window.addEventListener('resize', () => this.reposition());
   }
 
-  public reposition() {
+  reposition() {
     const { attachTo } = this.config;
     const offset = totalOffset(attachTo);
     const dim = new V2(attachTo.clientWidth, attachTo.clientHeight);
