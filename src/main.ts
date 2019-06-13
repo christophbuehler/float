@@ -32,19 +32,25 @@ class Floater {
     parent.appendChild(this.boxComponent);
   }
 
-  public remove() {
+  remove() {
     this.boxComponent.remove();
     if (this.backdropComponent) {
       this.backdropComponent.remove();
     }
   }
 
-  public show() {
+  show() {
     this.boxComponent.show();
+    if (this.config.onShow) {
+      this.config.onShow();
+    }
   }
 
-  public hide() {
+  hide() {
     this.boxComponent.hide();
+    if (this.config.onHide) {
+      this.config.onHide();
+    }
   }
 }
 
@@ -63,6 +69,9 @@ export interface Config {
   arrowStrategy?: ArrowStrategy;
   transition?: Transition;
   customCss?: string;
+  onClick?: (ev: MouseEvent) => void;
+  onHide?: () => void;
+  onShow?: () => void;
 }
 
 export type PositionStrategy = (

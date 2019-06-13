@@ -1,10 +1,4 @@
-import {
-  ArrowStrategy,
-  Config,
-  Float,
-  PositionStrategy,
-  Transition,
-} from '../main';
+import { Config, Float, Transition } from '../main';
 import { V2 } from '../v2';
 import {
   bottomStart,
@@ -34,7 +28,7 @@ export default (
   Object.assign(template.style, {
     padding: '12px',
     color: '#353d46',
-    fontWeight: '600',
+    fontWeight: '500',
     background: '#fff',
     fontSize: '14px',
     cursor: 'pointer',
@@ -62,7 +56,10 @@ export default (
     ...partialConfig,
   });
 
-  template.addEventListener('click', () => {
+  template.addEventListener('click', (ev: MouseEvent) => {
+    if (partialConfig.onClick) {
+      partialConfig.onClick(ev);
+    }
     floater.hide();
   });
 
@@ -72,9 +69,9 @@ export default (
 function left(): Partial<Config> {
   const arrowStrategy = rightStart(8, 16, {
     customCss: `
-        :host {
-          background: #fff;
-        }
+      :host {
+        background: #fff;
+      }
       `,
   });
   const positionStrategy = ninja('TOP_LEFT', new V2(-16, 0), true, false);
@@ -123,10 +120,10 @@ function right(): Partial<Config> {
 function bottom(): Partial<Config> {
   const arrowStrategy = topStart(8, 16, {
     customCss: `
-        :host {
-            background: #fff;
-        }
-      `,
+      :host {
+        background: #fff;
+      }
+    `,
   });
   const positionStrategy = ninja('BOTTOM_LEFT', new V2(0, 16), false, false);
   const transition: Transition = () => 'bounce-bottom';
