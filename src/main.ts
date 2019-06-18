@@ -52,6 +52,10 @@ class Floater {
       this.config.onHide();
     }
   }
+
+  reposition() {
+    this.boxComponent.reposition();
+  }
 }
 
 export default (config: Config) => new Floater(config);

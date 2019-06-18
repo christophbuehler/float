@@ -17,8 +17,12 @@
 
     <script>
       window.onload = () => {
-        const menuEntries = Array.from(document.querySelectorAll(".nav > div"));
+        const menuEntries = Array.from(
+          document.querySelectorAll(".nav > .nav-entry")
+        );
         const iframe = document.querySelector(".demo-frame");
+        const descTitle = document.querySelector(".desc > h1");
+        const desc = document.querySelector(".desc > p");
         const jsCode = document.querySelector(".js-code");
         const htmlCode = document.querySelector(".html-code");
         let activeEntry;
@@ -39,6 +43,7 @@
           const name = target.dataset.demo;
           iframe.src = `./demos/${name}/demo.html`;
           const parser = new DOMParser();
+
           fetch(`./demos/${name}/demo.html`)
             .then(res => res.text())
             .then(
@@ -49,6 +54,13 @@
           fetch(`./demos/${name}/demo.js`)
             .then(res => res.text())
             .then(txt => (jsCode.value = js_beautify(txt)));
+
+          fetch(`./demos/${name}/desc.json`)
+            .then(res => res.json())
+            .then(data => {
+              descTitle.innerHTML = data.title;
+              desc.innerHTML = data.description;
+            });
         }
       };
     </script>
@@ -69,9 +81,10 @@
       }
       .nav {
         flex: 0 0 220px;
-        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        margin-right: 8px;
       }
-      .nav > div {
+      .nav > .nav-entry {
+        border-radius: 0 24px 24px 0;
         height: 42px;
         line-height: 42px;
         padding: 0 16px;
@@ -80,21 +93,43 @@
         margin-bottom: 4px;
         font-weight: 600;
       }
-      .nav > div:hover,
-      .nav > .active {
-        background-color: rgba(0, 8, 120, 0.06);
+      .nav > .nav-entry:hover,
+      .nav > .nav-entry.active {
+        background-color: rgba(73, 72, 82, 0.2);
       }
-      h1 {
+      .logo {
         margin: 24px 0 16px;
         padding: 0 16px;
         font-size: 20px;
         color: rgb(0, 7, 73);
       }
+      .title {
+        padding: 0 16px;
+        font-size: 14px;
+        line-height: 24px;
+        height: 24px;
+        color: rgba(0, 0, 0, 0.6);
+        text-align: right;
+      }
+      .desc {
+        padding: 16px;
+        background: #fff;
+      }
+      .desc p {
+        margin: 0;
+        padding: 0;
+        line-height: 24px;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.6);
+      }
+      .desc h1 {
+        font-size: 24px;
+        margin: 0 0 16px;
+      }
       .code {
         display: flex;
         flex-direction: column;
         flex: 1 1;
-        background-color: rgba(0, 0, 0, 0.04);
       }
       textarea {
         outline: none;
@@ -103,17 +138,20 @@
         box-sizing: border-box;
         padding: 16px;
         resize: none;
+        background: rgba(0, 0, 0, 0.04);
+        border-radius: 4px;
       }
       .js-code {
         flex: 1 1;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
+        /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
       }
       .html-code {
         flex: 1 1;
       }
       .demo-preview {
         flex: 1 1;
-        border-left: 1px solid rgba(0, 0, 0, 0.1);
+        /* border-left: 1px solid rgba(0, 0, 0, 0.1); */
       }
       .demo-preview {
         overflow: hidden;
@@ -128,15 +166,21 @@
   <body>
     <div class="demos">
       <div class="nav">
-        <h1>float.js</h1>
-        <div data-demo="ufo">Ufo</div>
+        <div class="logo">float.js</div>
+        <div class="nav-entry" data-demo="ufo">Ufo</div>
       </div>
       <div class="code">
+        <div class="desc">
+          <h1></h1>
+          <p></p>
+        </div>
+        <div class="title">JavaScript</div>
         <textarea readonly class="js-code"></textarea>
+        <div class="title">HTML</div>
         <textarea readonly class="html-code"></textarea>
       </div>
       <div class="demo-preview">
-        <iframe class="demo-frame" src="" frameborder="0"></iframe>
+        <iframe class="demo-frame" frameborder="0"></iframe>
       </div>
     </div>
   </body>
