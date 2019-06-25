@@ -4,8 +4,8 @@ import { Config } from './main';
 import { V2 } from './v2';
 
 export class FloaterBoxComponent extends HTMLElement {
-  public config: Config;
-  public backdropComponent: FloaterBackdropComponent;
+  config: Config;
+  backdropComponent: FloaterBackdropComponent;
   private arrowComponent: FloaterArrowComponent;
 
   constructor() {
@@ -15,7 +15,7 @@ export class FloaterBoxComponent extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = `
       :host {
-        position: absolute;
+        position: fixed;
         z-index: 999;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         border-radius: 4px;
@@ -125,24 +125,25 @@ export class FloaterBoxComponent extends HTMLElement {
     this.shadowRoot.appendChild(style);
   }
 
-  public show() {
+  show() {
     if (this.backdropComponent) {
       this.backdropComponent.show();
     }
     this.classList.toggle('show', true);
   }
 
-  public hide() {
+  hide() {
     if (this.backdropComponent) {
       this.backdropComponent.hide();
     }
     this.classList.toggle('show', false);
   }
 
-  public connectedCallback() {
+  connectedCallback() {
     // this.config.template.style.backgroundColor = '#fff';
-    this.config.template.style.position = 'relative';
-    this.config.template.style.borderRadius = '4px';
+    const template = this.config.template;
+    template.style.position = template.style.position || 'relative';
+    template.style.borderRadius = template.style.borderRadius || '4px';
 
     if (this.config.customCss) {
       const style = document.createElement('style');
@@ -177,7 +178,7 @@ export class FloaterBoxComponent extends HTMLElement {
     window.addEventListener('resize', () => this.reposition());
   }
 
-  public reposition() {
+  reposition() {
     const { attachTo } = this.config;
     const offset = totalOffset(attachTo);
     const dim = new V2(attachTo.clientWidth, attachTo.clientHeight);
@@ -192,8 +193,10 @@ export class FloaterBoxComponent extends HTMLElement {
       if (!el || el.tagName === 'BODY') {
         return val;
       }
-      const newVal = val.add(new V2(el.offsetLeft, el.offsetTop));
-      return totalOffset(el.offsetParent as HTMLElement, newVal);
+      const rect = el.getBoundingClientRect() as DOMRect;
+      return val.add(new V2(rect.x, rect.y));
+      // const newVal = val.add(new V2(el.offsetLeft, el.offsetTop));
+      // return totalOffset(el.offsetParent as HTMLElement, newVal);
     }
   }
 

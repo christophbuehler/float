@@ -1,10 +1,4 @@
-import {
-  ArrowStrategy,
-  Config,
-  Float,
-  PositionStrategy,
-  Transition,
-} from '../main';
+import { Config, Float, Transition } from '../main';
 import { V2 } from '../v2';
 import {
   bottomStart,
@@ -32,10 +26,13 @@ export default (
   })();
 
   Object.assign(template.style, {
-    padding: '16px',
-    color: '#fff',
-    background: '#8f72e1',
+    padding: '12px',
+    color: '#353d46',
+    fontWeight: '500',
+    background: '#fff',
+    fontSize: '14px',
     cursor: 'pointer',
+    borderRadius: '8px',
   });
 
   const cfg: any = ({
@@ -49,13 +46,20 @@ export default (
     attachTo,
     template,
     hasBackdrop: false,
-    // closeOnBackdropClick: true,
-    // backdropColor: 'transparent',
+    customCss: `
+      :host {
+        box-shadow: 0 1px 3px rgba(60,64,67, 0.3), 0 4px 8px 3px rgba(60,64,67, 0.15);
+        border-radius: 8px;
+      }
+    `,
     ...cfg,
     ...partialConfig,
   });
 
-  template.addEventListener('click', () => {
+  template.addEventListener('click', (ev: MouseEvent) => {
+    if (partialConfig.onClick) {
+      partialConfig.onClick(ev);
+    }
     floater.hide();
   });
 
@@ -65,9 +69,9 @@ export default (
 function left(): Partial<Config> {
   const arrowStrategy = rightStart(8, 16, {
     customCss: `
-        :host {
-            background: #8f72e1;
-        }
+      :host {
+        background: #fff;
+      }
       `,
   });
   const positionStrategy = ninja('TOP_LEFT', new V2(-16, 0), true, false);
@@ -83,7 +87,7 @@ function top(): Partial<Config> {
   const arrowStrategy = bottomStart(8, 16, {
     customCss: `
         :host {
-            background: #8f72e1;
+            background: #fff;
         }
       `,
   });
@@ -100,7 +104,7 @@ function right(): Partial<Config> {
   const arrowStrategy = leftStart(8, 16, {
     customCss: `
         :host {
-            background: #8f72e1;
+            background: #fff;
         }
       `,
   });
@@ -116,10 +120,10 @@ function right(): Partial<Config> {
 function bottom(): Partial<Config> {
   const arrowStrategy = topStart(8, 16, {
     customCss: `
-        :host {
-            background: #8f72e1;
-        }
-      `,
+      :host {
+        background: #fff;
+      }
+    `,
   });
   const positionStrategy = ninja('BOTTOM_LEFT', new V2(0, 16), false, false);
   const transition: Transition = () => 'bounce-bottom';
