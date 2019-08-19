@@ -40,8 +40,3 @@ floaters.positionStrategies.ninja(
 ```
 
 `floaters.ufo( document.querySelector("#attachTo"), 'hello' );`
-
-# ToDo
-
-- move class from main to separate file
-- scss with webpack (import \* as styles from './xxx.scsss')
