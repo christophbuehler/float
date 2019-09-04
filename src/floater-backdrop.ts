@@ -1,6 +1,6 @@
 export class FloaterBackdropComponent extends HTMLElement {
-  public visible = false;
-  public bgColor = '#fff';
+  visible = false;
+  bgColor = '#fff';
 
   constructor() {
     super();
@@ -10,7 +10,7 @@ export class FloaterBackdropComponent extends HTMLElement {
     style.textContent = `
       :host {
         display: block;
-        position: absolute;
+        position: fixed;
         left: 0;
         top: 0;
         right: 0;
@@ -27,17 +27,17 @@ export class FloaterBackdropComponent extends HTMLElement {
     this.shadowRoot.appendChild(style);
   }
 
-  public show() {
+  show() {
     this.visible = true;
     this.classList.toggle('show', true);
   }
 
-  public hide() {
+  hide() {
     this.visible = false;
     this.classList.toggle('show', false);
   }
 
-  public connectedCallback() {
+  connectedCallback() {
     this.style.backgroundColor = this.bgColor;
   }
 }
