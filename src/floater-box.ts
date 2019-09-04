@@ -137,10 +137,12 @@ export class FloaterBoxComponent extends HTMLElement {
       this.backdropComponent.hide();
     }
     this.classList.toggle('show', false);
+    if (this.config.onHide) {
+      this.config.onHide();
+    }
   }
 
   connectedCallback() {
-    // this.config.template.style.backgroundColor = '#fff';
     const template = this.config.template;
     template.style.position = template.style.position || 'relative';
     template.style.borderRadius = template.style.borderRadius || '4px';
