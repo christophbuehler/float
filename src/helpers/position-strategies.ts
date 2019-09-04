@@ -18,6 +18,7 @@ export const ninja = (
 ): PositionStrategy => {
   return ({ attachToDim, attachToPos, contentDim }) => {
     let pos = attachToPos;
+    const windowDim = new V2(window.outerWidth, window.outerHeight);
 
     switch (pivot) {
       case 'TOP_RIGHT':
@@ -30,15 +31,17 @@ export const ninja = (
         pos = pos.add(new V2(0, attachToDim.y));
         break;
       case 'TOP_CENTER':
-        pos = pos.add(new V2((attachToDim.x + contentDim.x) / 2, 0));
+        pos = pos
+          .dot(new V2(0, 1))
+          .add(new V2((windowDim.x + contentDim.x) / 2, 0));
         break;
       case 'BOTTOM_CENTER':
-        pos = pos.add(
-          new V2((attachToDim.x + contentDim.x) / 2, attachToDim.y),
-        );
+        pos = pos
+          .dot(new V2(0, 1))
+          .add(new V2((windowDim.x + contentDim.x) / 2, attachToDim.y));
         break;
       case 'CENTER_CENTER':
-        pos = pos.add(attachToDim.add(contentDim).dot(new V2(0.5, 0.5)));
+        pos = windowDim.add(contentDim).dot(new V2(0.5, 0.5));
         break;
     }
 
