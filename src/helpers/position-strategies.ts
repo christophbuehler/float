@@ -1,10 +1,17 @@
 import { PositionStrategy } from '../main';
 import { V2 } from '../v2';
 
-export type Corner = 'TOP_LEFT' | 'TOP_RIGHT' | 'BOTTOM_LEFT' | 'BOTTOM_RIGHT';
+export type RefPoint =
+  | 'TOP_LEFT'
+  | 'TOP_RIGHT'
+  | 'BOTTOM_LEFT'
+  | 'BOTTOM_RIGHT'
+  | 'TOP_CENTER'
+  | 'BOTTOM_CENTER'
+  | 'CENTER_CENTER';
 
 export const ninja = (
-  pivot: Corner = 'BOTTOM_LEFT',
+  pivot: RefPoint = 'BOTTOM_LEFT',
   offset: V2 = new V2(0, 0),
   flipX = false,
   flipY = false,
@@ -12,16 +19,27 @@ export const ninja = (
   return ({ attachToDim, attachToPos, contentDim }) => {
     let pos = attachToPos;
 
-    if (pivot === 'TOP_RIGHT') {
-      pos = pos.add(new V2(attachToDim.x, 0));
-    }
-
-    if (pivot === 'BOTTOM_RIGHT') {
-      pos = pos.add(new V2(attachToDim.x, attachToDim.y));
-    }
-
-    if (pivot === 'BOTTOM_LEFT') {
-      pos = pos.add(new V2(0, attachToDim.y));
+    switch (pivot) {
+      case 'TOP_RIGHT':
+        pos = pos.add(new V2(attachToDim.x, 0));
+        break;
+      case 'BOTTOM_RIGHT':
+        pos = pos.add(new V2(attachToDim.x, attachToDim.y));
+        break;
+      case 'BOTTOM_LEFT':
+        pos = pos.add(new V2(0, attachToDim.y));
+        break;
+      case 'TOP_CENTER':
+        pos = pos.add(new V2((attachToDim.x + contentDim.x) / 2, 0));
+        break;
+      case 'BOTTOM_CENTER':
+        pos = pos.add(
+          new V2((attachToDim.x + contentDim.x) / 2, attachToDim.y),
+        );
+        break;
+      case 'CENTER_CENTER':
+        pos = pos.add(attachToDim.add(contentDim).dot(new V2(0.5, 0.5)));
+        break;
     }
 
     if (flipX) {
