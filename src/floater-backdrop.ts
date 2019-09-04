@@ -18,6 +18,7 @@ export class FloaterBackdropComponent extends HTMLElement {
         opacity: 0;
         pointer-events: none;
         transition: opacity .2s ease;
+        z-index: 2;
       }
       :host(.show) {
         opacity: .8;
