@@ -19,9 +19,10 @@
   "homepage": "https://github.com/christophbuehler/float#readme",
   "devDependencies": {
     "css-loader": "^2.1.1",
+    "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "ts-loader": "^5.3.3",
-    "sass-loader": "^7.1.0"
+    "typescript": "^3.6.2"
   },
   "dependencies": {}
 }
