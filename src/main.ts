@@ -3,9 +3,9 @@ import { FloaterBackdropComponent } from './floater-backdrop';
 import { FloaterBoxComponent } from './floater-box';
 import { V2 } from './v2';
 
-window.customElements.define('floater-box', FloaterBoxComponent);
-window.customElements.define('floater-arrow', FloaterArrowComponent);
-window.customElements.define('floater-backdrop', FloaterBackdropComponent);
+customElementsDefine('floater-box', FloaterBoxComponent);
+customElementsDefine('floater-arrow', FloaterArrowComponent);
+customElementsDefine('floater-backdrop', FloaterBackdropComponent);
 
 class Floater {
   private boxComponent: FloaterBoxComponent;
@@ -99,3 +99,14 @@ export type ArrowStrategy = () => {
 };
 
 export type Transition = () => string;
+
+// Define custom element if not already defined.
+function customElementsDefine(
+  name: string,
+  constructor: CustomElementConstructor,
+  options?: ElementDefinitionOptions,
+): void {
+  if (!window.customElements.get(name)) {
+    window.customElements.define(name, constructor, options);
+  }
+}
